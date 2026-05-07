@@ -1,0 +1,726 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-2zx5j2le"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Configuration Reference | Devox</title><link rel="canonical" href="https://devox.diy/reference/configuration/"/><link rel="sitemap" href="/sitemap-index.xml"/><script>if(!localStorage.getItem('starlight-theme')){localStorage.setItem('starlight-theme','dark');document.documentElement.dataset.theme='dark';}</script><link rel="shortcut icon" href="/favicon.png" type="image/png"/><meta name="generator" content="Astro v6.1.8"/><meta name="generator" content="Starlight v0.38.3"/><meta property="og:title" content="Configuration Reference"/><meta property="og:type" content="article"/><meta property="og:url" content="https://devox.diy/reference/configuration/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Full reference for Devox's layered configuration system including YAML config, environment variables, and streaming modes."/><meta property="og:site_name" content="Devox"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Full reference for Devox's layered configuration system including YAML config, environment variables, and streaming modes."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.DNXP8c50.css" media="print"><link rel="stylesheet" href="/_astro/common.DQk9TF_9.css">
+<link rel="stylesheet" href="/_astro/Code.DEy_Sfsa.css"><script type="module" src="/_astro/page.BIhdncjw.js"></script></head> <body class="astro-2zx5j2le"> <a href="#_top" class="astro-6ff4doz4">Skip to content</a> <div class="page sl-flex astro-xyqgnbff"> <header class="header astro-xyqgnbff"><div class="header astro-6ulkgx2w"> <div class="title-wrapper sl-flex astro-6ulkgx2w"> <a href="/" class="site-title sl-flex astro-f6ovu47j">  <img class="astro-f6ovu47j" alt="Devox" src="/_astro/logo.D-31Efhj.png" width="1024" height="1024">  <span class="astro-f6ovu47j" translate="no"> Devox </span> </a> </div> <div class="sl-flex print:hidden astro-6ulkgx2w"> <site-search class="astro-6ulkgx2w astro-n75jdmtg" data-translations="{&#34;placeholder&#34;:&#34;Search&#34;}"> <button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-n75jdmtg"> <svg aria-hidden="true" class="astro-n75jdmtg astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg> <span class="sl-hidden md:sl-block astro-n75jdmtg" aria-hidden="true">Search</span> <kbd class="sl-hidden md:sl-flex astro-n75jdmtg" style="display: none;"> <kbd class="astro-n75jdmtg">Ctrl</kbd><kbd class="astro-n75jdmtg">K</kbd> </kbd> </button> <dialog style="padding:0" aria-label="Search" class="astro-n75jdmtg"> <div class="dialog-frame sl-flex astro-n75jdmtg">  <button data-close-modal class="sl-flex md:sl-hidden astro-n75jdmtg"> Cancel </button> <div class="search-container astro-n75jdmtg"> <div id="starlight__search" class="astro-n75jdmtg"></div> </div> </div> </dialog> </site-search>  <script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script> <script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.Rw77DzG6.js"></script>  </div> <div class="sl-hidden md:sl-flex print:hidden right-group astro-6ulkgx2w"> <div class="sl-flex social-icons astro-6ulkgx2w"> <a href="https://github.com/manish/Devox" rel="me" class="sl-flex astro-wttpboyd"><span class="sr-only astro-wttpboyd">GitHub</span><svg aria-hidden="true" class="astro-wttpboyd astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a> </div> <starlight-theme-select>  <label style="--sl-select-width: 6.25em" class="astro-qt3mp4ls"> <span class="sr-only astro-qt3mp4ls">Select theme</span> <svg aria-hidden="true" class="icon label-icon astro-qt3mp4ls astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> <select autocomplete="off" class="astro-qt3mp4ls"> <option value="dark" class="astro-qt3mp4ls">Dark</option><option value="light" class="astro-qt3mp4ls">Light</option><option value="auto" selected class="astro-qt3mp4ls">Auto</option> </select> <svg aria-hidden="true" class="icon caret astro-qt3mp4ls astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label> </starlight-theme-select>  <script>
+	StarlightThemeProvider.updatePickers();
+</script> <script type="module">const r="starlight-theme",o=e=>e==="auto"||e==="dark"||e==="light"?e:"auto",c=()=>o(typeof localStorage<"u"&&localStorage.getItem(r));function n(e){typeof localStorage<"u"&&localStorage.setItem(r,e==="light"||e==="dark"?e:"")}const l=()=>matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";function t(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e==="auto"?l():e,n(e)}matchMedia("(prefers-color-scheme: light)").addEventListener("change",()=>{c()==="auto"&&t("auto")});class s extends HTMLElement{constructor(){super(),t(c()),this.querySelector("select")?.addEventListener("change",a=>{a.currentTarget instanceof HTMLSelectElement&&t(o(a.currentTarget.value))})}}customElements.define("starlight-theme-select",s);</script> <script type="module">class s extends HTMLElement{constructor(){super();const e=this.querySelector("select");e&&(e.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=t.currentTarget.value)}),window.addEventListener("pageshow",t=>{if(!t.persisted)return;const n=e.querySelector("option[selected]")?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}}customElements.define("starlight-lang-select",s);</script> </div> </div></header> <nav class="sidebar print:hidden astro-xyqgnbff" aria-label="Main"> <starlight-menu-button class="print:hidden astro-o2lcy3sa"> <button aria-expanded="false" aria-label="Menu" aria-controls="starlight__sidebar" class="sl-flex md:sl-hidden astro-o2lcy3sa"> <svg aria-hidden="true" class="open-menu astro-o2lcy3sa astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg> <svg aria-hidden="true" class="close-menu astro-o2lcy3sa astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg> </button> </starlight-menu-button> <script type="module">class s extends HTMLElement{constructor(){super(),this.btn=this.querySelector("button"),this.btn.addEventListener("click",()=>this.toggleExpanded());const t=this.closest("nav");t&&t.addEventListener("keyup",e=>this.closeOnEscape(e))}setExpanded(t){this.setAttribute("aria-expanded",String(t)),document.body.toggleAttribute("data-mobile-menu-expanded",t)}toggleExpanded(){this.setExpanded(this.getAttribute("aria-expanded")!=="true")}closeOnEscape(t){t.code==="Escape"&&(this.setExpanded(!1),this.btn.focus())}}customElements.define("starlight-menu-button",s);</script>  <div id="starlight__sidebar" class="sidebar-pane astro-xyqgnbff"> <div class="sidebar-content sl-flex astro-xyqgnbff"> <sl-sidebar-state-persist data-hash="0c7x79v" class="astro-6yfmmcbd"> <script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script>  <ul class="top-level astro-txq7wyiz"> <li class="astro-txq7wyiz"> <details open class="astro-txq7wyiz"> <summary class="astro-txq7wyiz"> <span class="group-label astro-txq7wyiz"> <span class="large astro-txq7wyiz">The Book of Devox</span>  </span> <svg aria-hidden="true" class="caret astro-txq7wyiz astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="0"></sl-sidebar-restore> <ul class="astro-txq7wyiz"> <li class="astro-txq7wyiz"> <a href="/book/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">The Book of Devox</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/book/what-is-devox/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">What Is Devox?</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/book/first-five-minutes/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Your First Five Minutes</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/book/how-it-works/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">How Devox Actually Works</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/book/essential-workflows/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">The Essential Workflows</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/book/isolation/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Isolation and Worktrees</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/book/first-command/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Creating Your First Command</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/book/first-workflow/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Creating Your First Workflow</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/book/dag-workflows/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">DAG Workflows</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/book/hooks-and-quality/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Hooks and Quality Loops</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/book/quick-reference/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Quick Reference</span>  </a> </li> </ul> </details> </li><li class="astro-txq7wyiz"> <details open class="astro-txq7wyiz"> <summary class="astro-txq7wyiz"> <span class="group-label astro-txq7wyiz"> <span class="large astro-txq7wyiz">Getting Started</span>  </span> <svg aria-hidden="true" class="caret astro-txq7wyiz astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="1"></sl-sidebar-restore> <ul class="astro-txq7wyiz"> <li class="astro-txq7wyiz"> <a href="/getting-started/installation/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Installation</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/getting-started/overview/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Getting Started</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/getting-started/concepts/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Core Concepts</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/getting-started/quick-start/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Quick Start</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/getting-started/configuration/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Configuration</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/getting-started/ai-assistants/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">AI Assistants</span>  </a> </li> </ul> </details> </li><li class="astro-txq7wyiz"> <details open class="astro-txq7wyiz"> <summary class="astro-txq7wyiz"> <span class="group-label astro-txq7wyiz"> <span class="large astro-txq7wyiz">Guides</span>  </span> <svg aria-hidden="true" class="caret astro-txq7wyiz astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="2"></sl-sidebar-restore> <ul class="astro-txq7wyiz"> <li class="astro-txq7wyiz"> <a href="/guides/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Guides</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/guides/authoring-workflows/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Authoring Workflows</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/guides/authoring-commands/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Authoring Commands</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/guides/loop-nodes/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Loop Nodes</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/guides/approval-nodes/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Approval Nodes</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/guides/hooks/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Per-Node Hooks</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/guides/mcp-servers/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Per-Node MCP Servers</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/guides/skills/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Per-Node Skills</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/guides/global-workflows/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Global Workflows</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/guides/remotion-workflow/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Remotion Video Generation Workflow</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/guides/workflow-resume-rerun/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Resuming and Rerunning Workflows</span>  </a> </li> </ul> </details> </li><li class="astro-txq7wyiz"> <details open class="astro-txq7wyiz"> <summary class="astro-txq7wyiz"> <span class="group-label astro-txq7wyiz"> <span class="large astro-txq7wyiz">Adapters</span>  </span> <svg aria-hidden="true" class="caret astro-txq7wyiz astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="3"></sl-sidebar-restore> <ul class="astro-txq7wyiz"> <li class="astro-txq7wyiz"> <a href="/adapters/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Platform Adapters</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/adapters/web/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Web UI</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/adapters/slack/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Slack</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/adapters/telegram/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Telegram</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/adapters/github/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">GitHub</span>  </a> </li><li class="astro-txq7wyiz"> <details open class="astro-txq7wyiz"> <summary class="astro-txq7wyiz"> <span class="group-label astro-txq7wyiz"> <span class="large astro-txq7wyiz">community</span>  </span> <svg aria-hidden="true" class="caret astro-txq7wyiz astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="4"></sl-sidebar-restore> <ul class="astro-txq7wyiz"> <li class="astro-txq7wyiz"> <a href="/adapters/community/discord/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Discord</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/adapters/community/gitea/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Gitea</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/adapters/community/gitlab/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">GitLab</span>  </a> </li> </ul> </details> </li> </ul> </details> </li><li class="astro-txq7wyiz"> <details open class="astro-txq7wyiz"> <summary class="astro-txq7wyiz"> <span class="group-label astro-txq7wyiz"> <span class="large astro-txq7wyiz">Deployment</span>  </span> <svg aria-hidden="true" class="caret astro-txq7wyiz astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="5"></sl-sidebar-restore> <ul class="astro-txq7wyiz"> <li class="astro-txq7wyiz"> <a href="/deployment/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Deployment Overview</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/deployment/local/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Local Development</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/deployment/docker/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Docker Guide</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/deployment/cloud/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Cloud Deployment</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/deployment/windows/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Windows Setup</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/deployment/e2e-testing/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">E2E Testing</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/deployment/e2e-testing-wsl/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">E2E Testing on WSL</span>  </a> </li> </ul> </details> </li><li class="astro-txq7wyiz"> <details open class="astro-txq7wyiz"> <summary class="astro-txq7wyiz"> <span class="group-label astro-txq7wyiz"> <span class="large astro-txq7wyiz">Reference</span>  </span> <svg aria-hidden="true" class="caret astro-txq7wyiz astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="6"></sl-sidebar-restore> <ul class="astro-txq7wyiz"> <li class="astro-txq7wyiz"> <a href="/reference/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Reference</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/reference/architecture/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Architecture</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/reference/devox-directories/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Devox Directories</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/reference/cli/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">CLI Reference</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/reference/commands/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Commands Reference</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/reference/database/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Database</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/reference/variables/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Variable Reference</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/reference/api/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">API Reference</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/reference/configuration/" aria-current="page" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Configuration Reference</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/reference/troubleshooting/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Troubleshooting</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/reference/security/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Security</span>  </a> </li> </ul> </details> </li><li class="astro-txq7wyiz"> <details open class="astro-txq7wyiz"> <summary class="astro-txq7wyiz"> <span class="group-label astro-txq7wyiz"> <span class="large astro-txq7wyiz">Contributing</span>  </span> <svg aria-hidden="true" class="caret astro-txq7wyiz astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="7"></sl-sidebar-restore> <ul class="astro-txq7wyiz"> <li class="astro-txq7wyiz"> <a href="/contributing/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Contributing</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/contributing/new-developer-guide/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">New Developer Guide</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/contributing/cli-internals/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">CLI Internals</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/contributing/releasing/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Releasing</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/contributing/dx-quirks/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">DX Quirks</span>  </a> </li><li class="astro-txq7wyiz"> <a href="/contributing/adding-a-community-provider/" class="astro-txq7wyiz"> <span class="astro-txq7wyiz">Adding a Community Provider</span>  </a> </li> </ul> </details> </li> </ul>  <script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script> </sl-sidebar-state-persist> <div class="md:sl-hidden"> <div class="mobile-preferences sl-flex astro-fxndw6lk"> <div class="social-icons astro-fxndw6lk"> <a href="https://github.com/manish/Devox" rel="me" class="sl-flex astro-wttpboyd"><span class="sr-only astro-wttpboyd">GitHub</span><svg aria-hidden="true" class="astro-wttpboyd astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a> </div> <starlight-theme-select>  <label style="--sl-select-width: 6.25em" class="astro-qt3mp4ls"> <span class="sr-only astro-qt3mp4ls">Select theme</span> <svg aria-hidden="true" class="icon label-icon astro-qt3mp4ls astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> <select autocomplete="off" class="astro-qt3mp4ls"> <option value="dark" class="astro-qt3mp4ls">Dark</option><option value="light" class="astro-qt3mp4ls">Light</option><option value="auto" selected class="astro-qt3mp4ls">Auto</option> </select> <svg aria-hidden="true" class="icon caret astro-qt3mp4ls astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label> </starlight-theme-select>  <script>
+	StarlightThemeProvider.updatePickers();
+</script>   </div> </div> </div> </div> </nav> <div class="main-frame astro-xyqgnbff">  <script type="module">const a=document.getElementById("starlight__sidebar"),n=a?.querySelector("sl-sidebar-state-persist"),o="sl-sidebar-state",i=()=>{let t=[];const e=n?.dataset.hash||"";try{const s=sessionStorage.getItem(o),r=JSON.parse(s||"{}");Array.isArray(r.open)&&r.hash===e&&(t=r.open)}catch{}return{hash:e,open:t,scroll:a?.scrollTop||0}},c=t=>{try{sessionStorage.setItem(o,JSON.stringify(t))}catch{}},d=()=>c(i()),l=(t,e)=>{const s=i();s.open[e]=t,c(s)};n?.addEventListener("click",t=>{if(!(t.target instanceof Element))return;const e=t.target.closest("summary")?.closest("details");if(!e)return;const s=e.querySelector("sl-sidebar-restore"),r=parseInt(s?.dataset.index||"");isNaN(r)||l(!e.open,r)});addEventListener("visibilitychange",()=>{document.visibilityState==="hidden"&&d()});addEventListener("pageHide",d);</script> <div class="lg:sl-flex astro-xjd7q22d"> <aside class="right-sidebar-container print:hidden astro-xjd7q22d"> <div class="right-sidebar astro-xjd7q22d"> <div class="lg:sl-hidden astro-d5bo2ngj"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-3hayjujw"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-3hayjujw"><details id="starlight__mobile-toc" class="astro-3hayjujw"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-3hayjujw"><span class="toggle sl-flex astro-3hayjujw">On this page<svg aria-hidden="true" class="caret astro-3hayjujw astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-3hayjujw"></span></summary><div class="dropdown astro-3hayjujw"><ul class="isMobile astro-sbegsn6g" style="--depth: 0;"> <li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#_top" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#directory-structure" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Directory Structure</span> </a> <ul class="isMobile astro-sbegsn6g" style="--depth: 1;"> <li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#user-level-devox" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">User-Level (~/.devox/)</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#repository-level-devox" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Repository-Level (.devox/)</span> </a>  </li> </ul> </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#configuration-priority" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Configuration Priority</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#global-configuration" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Global Configuration</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#repository-configuration" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Repository Configuration</span> </a> <ul class="isMobile astro-sbegsn6g" style="--depth: 1;"> <li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#claude-settingsources" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Claude settingSources</span> </a>  </li> </ul> </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#environment-variables" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Environment Variables</span> </a> <ul class="isMobile astro-sbegsn6g" style="--depth: 1;"> <li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#core" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Core</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#ai-providers--claude" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">AI Providers — Claude</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#ai-providers--codex" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">AI Providers — Codex</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#platform-adapters--slack" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Platform Adapters — Slack</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#platform-adapters--telegram" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Platform Adapters — Telegram</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#platform-adapters--discord" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Platform Adapters — Discord</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#platform-adapters--github" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Platform Adapters — GitHub</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#platform-adapters--gitea" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Platform Adapters — Gitea</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#database" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Database</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#web-ui" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Web UI</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#worktree-management" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Worktree Management</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#docker--deployment" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Docker / Deployment</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#env-file-locations" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">.env File Locations</span> </a>  </li> </ul> </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#docker-configuration" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Docker Configuration</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#command-folder-detection" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Command Folder Detection</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#examples" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Examples</span> </a> <ul class="isMobile astro-sbegsn6g" style="--depth: 1;"> <li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#minimal-setup-using-defaults" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Minimal Setup (Using Defaults)</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#custom-ai-preference" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Custom AI Preference</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#project-specific-settings" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Project-Specific Settings</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#docker-with-custom-volume" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Docker with Custom Volume</span> </a>  </li> </ul> </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#streaming-modes" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Streaming Modes</span> </a> <ul class="isMobile astro-sbegsn6g" style="--depth: 1;"> <li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#stream-mode" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Stream Mode</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#batch-mode" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Batch Mode</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#platform-defaults" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Platform Defaults</span> </a>  </li> </ul> </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#concurrency-settings" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Concurrency Settings</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#health-check-endpoints" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Health Check Endpoints</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#troubleshooting" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Troubleshooting</span> </a> <ul class="isMobile astro-sbegsn6g" style="--depth: 1;"> <li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#config-parse-errors" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Config Parse Errors</span> </a>  </li> </ul> </li> </ul></div></details></nav></mobile-starlight-toc><script type="module" src="/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.hwBsy0Mo.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-d5bo2ngj"><div class="sl-container astro-d5bo2ngj"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-sbegsn6g" style="--depth: 0;"> <li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#_top" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Overview</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#directory-structure" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Directory Structure</span> </a> <ul class="astro-sbegsn6g" style="--depth: 1;"> <li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#user-level-devox" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">User-Level (~/.devox/)</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#repository-level-devox" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Repository-Level (.devox/)</span> </a>  </li> </ul> </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#configuration-priority" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Configuration Priority</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#global-configuration" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Global Configuration</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#repository-configuration" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Repository Configuration</span> </a> <ul class="astro-sbegsn6g" style="--depth: 1;"> <li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#claude-settingsources" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Claude settingSources</span> </a>  </li> </ul> </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#environment-variables" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Environment Variables</span> </a> <ul class="astro-sbegsn6g" style="--depth: 1;"> <li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#core" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Core</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#ai-providers--claude" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">AI Providers — Claude</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#ai-providers--codex" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">AI Providers — Codex</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#platform-adapters--slack" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Platform Adapters — Slack</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#platform-adapters--telegram" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Platform Adapters — Telegram</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#platform-adapters--discord" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Platform Adapters — Discord</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#platform-adapters--github" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Platform Adapters — GitHub</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#platform-adapters--gitea" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Platform Adapters — Gitea</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#database" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Database</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#web-ui" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Web UI</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#worktree-management" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Worktree Management</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#docker--deployment" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Docker / Deployment</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#env-file-locations" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">.env File Locations</span> </a>  </li> </ul> </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#docker-configuration" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Docker Configuration</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#command-folder-detection" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Command Folder Detection</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#examples" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Examples</span> </a> <ul class="astro-sbegsn6g" style="--depth: 1;"> <li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#minimal-setup-using-defaults" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Minimal Setup (Using Defaults)</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#custom-ai-preference" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Custom AI Preference</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#project-specific-settings" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Project-Specific Settings</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#docker-with-custom-volume" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Docker with Custom Volume</span> </a>  </li> </ul> </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#streaming-modes" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Streaming Modes</span> </a> <ul class="astro-sbegsn6g" style="--depth: 1;"> <li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#stream-mode" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Stream Mode</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#batch-mode" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Batch Mode</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#platform-defaults" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Platform Defaults</span> </a>  </li> </ul> </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#concurrency-settings" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Concurrency Settings</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#health-check-endpoints" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Health Check Endpoints</span> </a>  </li><li class="astro-sbegsn6g" style="--depth: 0;"> <a href="#troubleshooting" class="astro-sbegsn6g" style="--depth: 0;"> <span class="astro-sbegsn6g" style="--depth: 0;">Troubleshooting</span> </a> <ul class="astro-sbegsn6g" style="--depth: 1;"> <li class="astro-sbegsn6g" style="--depth: 1;"> <a href="#config-parse-errors" class="astro-sbegsn6g" style="--depth: 1;"> <span class="astro-sbegsn6g" style="--depth: 1;">Config Parse Errors</span> </a>  </li> </ul> </li> </ul></nav></starlight-toc><script type="module" src="/_astro/TableOfContents.astro_astro_type_script_index_0_lang.FuRcXuRY.js"></script></div></div> </div> </aside> <div class="main-pane astro-xjd7q22d">  <main data-pagefind-body class="astro-2zx5j2le" lang="en" dir="ltr">    <div class="content-panel astro-spdcgjix"> <div class="sl-container astro-spdcgjix"> <h1 id="_top" class="astro-v32l6eho">Configuration Reference</h1> </div> </div> <div class="content-panel astro-spdcgjix"> <div class="sl-container astro-spdcgjix"> <div class="sl-markdown-content"> <p>Devox supports a layered configuration system with sensible defaults, optional YAML config files, and environment variable overrides. For a quick introduction, see <a href="/getting-started/">Getting Started: Configuration</a>.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="directory-structure">Directory Structure</h2><a class="sl-anchor-link" href="#directory-structure"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Directory Structure”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="user-level-devox">User-Level (~/.devox/)</h3><a class="sl-anchor-link" href="#user-level-devox"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “User-Level (~/.devox/)”</span></a></div>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.v4551.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">~/.devox/</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">├── workspaces/owner/repo/  # Project-centric layout</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">│   ├── source/             # Clone or symlink -> local path</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">│   ├── worktrees/          # Git worktrees for this project</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">│   ├── artifacts/          # Workflow artifacts</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">│   └── logs/               # Workflow execution logs</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">├── devox.db               # SQLite database (when DATABASE_URL not set)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">└── config.yaml             # Global configuration (optional)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="~/.devox/├── workspaces/owner/repo/  # Project-centric layout│   ├── source/             # Clone or symlink -> local path│   ├── worktrees/          # Git worktrees for this project│   ├── artifacts/          # Workflow artifacts│   └── logs/               # Workflow execution logs├── devox.db               # SQLite database (when DATABASE_URL not set)└── config.yaml             # Global configuration (optional)"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="repository-level-devox">Repository-Level (.devox/)</h3><a class="sl-anchor-link" href="#repository-level-devox"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Repository-Level (.devox/)”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">.devox/</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">├── commands/       # Custom commands</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">│   └── plan.md</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">├── workflows/      # Workflow definitions (YAML files)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">└── config.yaml     # Repo-specific configuration (optional)</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code=".devox/├── commands/       # Custom commands│   └── plan.md├── workflows/      # Workflow definitions (YAML files)└── config.yaml     # Repo-specific configuration (optional)"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="configuration-priority">Configuration Priority</h2><a class="sl-anchor-link" href="#configuration-priority"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Configuration Priority”</span></a></div>
+<p>Settings are loaded in this order (later overrides earlier):</p>
+<ol>
+<li><strong>Defaults</strong> - Sensible built-in defaults</li>
+<li><strong>Global Config</strong> - <code dir="auto">~/.devox/config.yaml</code></li>
+<li><strong>Repo Config</strong> - <code dir="auto">.devox/config.yaml</code> in repository</li>
+<li><strong>Environment Variables</strong> - Always highest priority</li>
+</ol>
+<div class="sl-heading-wrapper level-h2"><h2 id="global-configuration">Global Configuration</h2><a class="sl-anchor-link" href="#global-configuration"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Global Configuration”</span></a></div>
+<p>Create <code dir="auto">~/.devox/config.yaml</code> for user-wide preferences:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="yaml"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># Default AI assistant</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">defaultAssistant</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">claude</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#919F9F;--1:#5F636F"># must match a registered provider (e.g. claude, codex)</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># Assistant defaults</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">assistants</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">claude</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#7FDBCA;--1:#111111">model</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">sonnet</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#7FDBCA;--1:#111111">settingSources</span><span style="--0:#D6DEEB;--1:#403F53">:   </span><span style="--0:#919F9F;--1:#5F636F"># Which CLAUDE.md files the SDK loads (default: ['project'])</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">      </span></span><span style="--0:#D6DEEB;--1:#403F53">- </span><span style="--0:#ECC48D;--1:#3B61B0">project</span><span style="--0:#D6DEEB;--1:#403F53">       </span><span style="--0:#919F9F;--1:#5F636F"># Project-level CLAUDE.md (always recommended)</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">      </span></span><span style="--0:#D6DEEB;--1:#403F53">- </span><span style="--0:#ECC48D;--1:#3B61B0">user</span><span style="--0:#D6DEEB;--1:#403F53">          </span><span style="--0:#919F9F;--1:#5F636F"># Also load ~/.claude/CLAUDE.md (global preferences)</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#919F9F;--1:#5F636F"># Optional: absolute path to the Claude Code executable.</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#919F9F;--1:#5F636F"># Required in compiled Devox binaries when CLAUDE_BIN_PATH is not set.</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#919F9F;--1:#5F636F"># Accepts the native binary (~/.local/bin/claude from the curl installer)</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#919F9F;--1:#5F636F"># or the npm-installed cli.js. Source/dev mode auto-resolves.</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#919F9F;--1:#5F636F"># claudeBinaryPath: /absolute/path/to/claude</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">codex</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#7FDBCA;--1:#111111">model</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">gpt-5.3-codex</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#7FDBCA;--1:#111111">modelReasoningEffort</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">medium</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#7FDBCA;--1:#111111">webSearchMode</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">disabled</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#7FDBCA;--1:#111111">additionalDirectories</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">      </span></span><span style="--0:#D6DEEB;--1:#403F53">- </span><span style="--0:#ECC48D;--1:#3B61B0">/absolute/path/to/other/repo</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#919F9F;--1:#5F636F"># codexBinaryPath: /absolute/path/to/codex  # Optional: Codex CLI path</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># Streaming preferences per platform</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">streaming</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">telegram</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">stream</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#919F9F;--1:#5F636F"># 'stream' or 'batch'</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">discord</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">batch</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">slack</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">batch</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">github</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">batch</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># Custom paths (usually not needed)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">paths</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">workspaces</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">~/.devox/workspaces</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">worktrees</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">~/.devox/worktrees</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># Concurrency limits</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">concurrency</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">maxConversations</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#F78C6C;--1:#AA0982">10</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="# Default AI assistantdefaultAssistant: claude # must match a registered provider (e.g. claude, codex)# Assistant defaultsassistants:  claude:    model: sonnet    settingSources:   # Which CLAUDE.md files the SDK loads (default: [&#x27;project&#x27;])      - project       # Project-level CLAUDE.md (always recommended)      - user          # Also load ~/.claude/CLAUDE.md (global preferences)    # Optional: absolute path to the Claude Code executable.    # Required in compiled Devox binaries when CLAUDE_BIN_PATH is not set.    # Accepts the native binary (~/.local/bin/claude from the curl installer)    # or the npm-installed cli.js. Source/dev mode auto-resolves.    # claudeBinaryPath: /absolute/path/to/claude  codex:    model: gpt-5.3-codex    modelReasoningEffort: medium    webSearchMode: disabled    additionalDirectories:      - /absolute/path/to/other/repo    # codexBinaryPath: /absolute/path/to/codex  # Optional: Codex CLI path# Streaming preferences per platformstreaming:  telegram: stream # &#x27;stream&#x27; or &#x27;batch&#x27;  discord: batch  slack: batch  github: batch# Custom paths (usually not needed)paths:  workspaces: ~/.devox/workspaces  worktrees: ~/.devox/worktrees# Concurrency limitsconcurrency:  maxConversations: 10"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="repository-configuration">Repository Configuration</h2><a class="sl-anchor-link" href="#repository-configuration"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Repository Configuration”</span></a></div>
+<p>Create <code dir="auto">.devox/config.yaml</code> in any repository for project-specific settings:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="yaml"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># AI assistant for this project (used as default provider for workflows)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">assistant</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">claude</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># Assistant defaults (override global)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">assistants</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">claude</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#7FDBCA;--1:#111111">model</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">sonnet</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#7FDBCA;--1:#111111">settingSources</span><span style="--0:#D6DEEB;--1:#403F53">:  </span><span style="--0:#919F9F;--1:#5F636F"># Override global settingSources for this repo</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">      </span></span><span style="--0:#D6DEEB;--1:#403F53">- </span><span style="--0:#ECC48D;--1:#3B61B0">project</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">codex</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#7FDBCA;--1:#111111">model</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">gpt-5.3-codex</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#7FDBCA;--1:#111111">webSearchMode</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">live</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># Commands configuration</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">commands</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">folder</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">.devox/commands</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">autoLoad</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#FF6A83;--1:#A24848">true</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># Worktree settings</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">worktree</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">baseBranch</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">main</span><span style="--0:#D6DEEB;--1:#403F53">  </span><span style="--0:#919F9F;--1:#5F636F"># Optional: auto-detected from git when not set</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">copyFiles</span><span style="--0:#D6DEEB;--1:#403F53">:  </span><span style="--0:#919F9F;--1:#5F636F"># Optional: Additional files to copy to worktrees</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">- </span><span style="--0:#ECC48D;--1:#3B61B0">.env.example -> .env</span><span style="--0:#D6DEEB;--1:#403F53">  </span><span style="--0:#919F9F;--1:#5F636F"># Rename during copy</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">    </span></span><span style="--0:#D6DEEB;--1:#403F53">- </span><span style="--0:#ECC48D;--1:#3B61B0">.vscode</span><span style="--0:#D6DEEB;--1:#403F53">               </span><span style="--0:#919F9F;--1:#5F636F"># Copy entire directory</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">initSubmodules</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53">  </span><span style="--0:#919F9F;--1:#5F636F"># Optional: default true — auto-detects .gitmodules and runs</span></div></div><div class="ec-line"><div class="code"><span class="indent">                        </span><span style="--0:#919F9F;--1:#5F636F"># `git submodule update --init --recursive`. Set false to opt out.</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># Documentation directory</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">docs</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">path</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">docs</span><span style="--0:#D6DEEB;--1:#403F53">  </span><span style="--0:#919F9F;--1:#5F636F"># Optional: default is docs/</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># Defaults configuration</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">defaults</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">loadDefaultCommands</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53">   </span><span style="--0:#919F9F;--1:#5F636F"># Load app's bundled default commands at runtime</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">loadDefaultWorkflows</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#FF6A83;--1:#A24848">true</span><span style="--0:#D6DEEB;--1:#403F53">  </span><span style="--0:#919F9F;--1:#5F636F"># Load app's bundled default workflows at runtime</span></div></div><div class="ec-line"><div class="code">
+</div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># Per-project environment variables for workflow execution (Claude SDK only)</span></div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># Injected into the Claude subprocess env. Use the Web UI Settings panel for secrets.</span></div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># env:</span></div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F">#   MY_API_KEY: value</span></div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F">#   CUSTOM_ENDPOINT: https://...</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="# AI assistant for this project (used as default provider for workflows)assistant: claude# Assistant defaults (override global)assistants:  claude:    model: sonnet    settingSources:  # Override global settingSources for this repo      - project  codex:    model: gpt-5.3-codex    webSearchMode: live# Commands configurationcommands:  folder: .devox/commands  autoLoad: true# Worktree settingsworktree:  baseBranch: main  # Optional: auto-detected from git when not set  copyFiles:  # Optional: Additional files to copy to worktrees    - .env.example -> .env  # Rename during copy    - .vscode               # Copy entire directory  initSubmodules: true  # Optional: default true — auto-detects .gitmodules and runs                        # &#x60;git submodule update --init --recursive&#x60;. Set false to opt out.# Documentation directorydocs:  path: docs  # Optional: default is docs/# Defaults configurationdefaults:  loadDefaultCommands: true   # Load app&#x27;s bundled default commands at runtime  loadDefaultWorkflows: true  # Load app&#x27;s bundled default workflows at runtime# Per-project environment variables for workflow execution (Claude SDK only)# Injected into the Claude subprocess env. Use the Web UI Settings panel for secrets.# env:#   MY_API_KEY: value#   CUSTOM_ENDPOINT: https://..."><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="claude-settingsources">Claude settingSources</h3><a class="sl-anchor-link" href="#claude-settingsources"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Claude settingSources”</span></a></div>
+<p>Controls which <code dir="auto">CLAUDE.md</code> files the Claude Agent SDK loads during sessions:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Value</th><th>Description</th></tr></thead><tbody><tr><td><code dir="auto">project</code></td><td>Load the project’s <code dir="auto">CLAUDE.md</code> (default, always included)</td></tr><tr><td><code dir="auto">user</code></td><td>Also load <code dir="auto">~/.claude/CLAUDE.md</code> (user’s global preferences)</td></tr></tbody></table>
+<p><strong>Default</strong>: <code dir="auto">['project']</code> — only project-level instructions are loaded.</p>
+<p>Set in global or repo config:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="yaml"><code><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">assistants</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">claude</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#7FDBCA;--1:#111111">settingSources</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">      </span></span><span style="--0:#D6DEEB;--1:#403F53">- </span><span style="--0:#ECC48D;--1:#3B61B0">project</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#D6DEEB;--1:#403F53">      </span></span><span style="--0:#D6DEEB;--1:#403F53">- </span><span style="--0:#ECC48D;--1:#3B61B0">user</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="assistants:  claude:    settingSources:      - project      - user"><div></div></button></div></figure></div>
+<p>This is useful when you maintain coding style or identity preferences in <code dir="auto">~/.claude/CLAUDE.md</code> and want Devox sessions to respect them.</p>
+<p><strong>Default behavior:</strong> The <code dir="auto">.devox/</code> directory is always copied to worktrees automatically (contains artifacts, plans, workflows). Use <code dir="auto">copyFiles</code> only for additional files like <code dir="auto">.env</code> or <code dir="auto">.vscode</code>.</p>
+<p><strong>Defaults behavior:</strong> The app’s bundled default commands and workflows are loaded at runtime and merged with repo-specific ones. Repo commands/workflows override app defaults by name. Set <code dir="auto">defaults.loadDefaultCommands: false</code> or <code dir="auto">defaults.loadDefaultWorkflows: false</code> to disable runtime loading.</p>
+<p><strong>Submodule behavior:</strong> When a repo contains <code dir="auto">.gitmodules</code>, submodules are initialized in new worktrees by default (git’s <code dir="auto">worktree add</code> does not do this). The check is a cheap filesystem probe — repos without submodules pay zero cost. Submodule init failure throws a classified error (credentials, network, timeout) rather than silently producing a worktree with empty submodule directories. Set <code dir="auto">worktree.initSubmodules: false</code> to opt out.</p>
+<p><strong>Base branch behavior:</strong> Before creating a worktree, the canonical workspace is synced to the latest code. Resolution order:</p>
+<ol>
+<li>If <code dir="auto">worktree.baseBranch</code> is set: Uses the configured branch. <strong>Fails with an error</strong> if the branch doesn’t exist on remote (no silent fallback).</li>
+<li>If omitted: Auto-detects the default branch via <code dir="auto">git remote show origin</code>. Works without any config for standard repos.</li>
+<li>If auto-detection fails and a workflow references <code dir="auto">$BASE_BRANCH</code>: Fails with an error explaining the resolution chain.</li>
+</ol>
+<p><strong>Docs path behavior:</strong> The <code dir="auto">docs.path</code> setting controls where the <code dir="auto">$DOCS_DIR</code> variable points. When not configured, <code dir="auto">$DOCS_DIR</code> defaults to <code dir="auto">docs/</code>. Unlike <code dir="auto">$BASE_BRANCH</code>, this variable always has a safe default and never throws an error. Configure it when your documentation lives outside the standard <code dir="auto">docs/</code> directory (e.g., <code dir="auto">packages/docs-web/src/content/docs</code>).</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="environment-variables">Environment Variables</h2><a class="sl-anchor-link" href="#environment-variables"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Environment Variables”</span></a></div>
+<p>Environment variables override all other configuration. They are organized by category below.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="core">Core</h3><a class="sl-anchor-link" href="#core"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Core”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td><code dir="auto">DEVOX_HOME</code></td><td>Base directory for all Devox-managed files</td><td><code dir="auto">~/.devox</code></td></tr><tr><td><code dir="auto">PORT</code></td><td>HTTP server listen port</td><td><code dir="auto">3090</code> (auto-allocated in worktrees)</td></tr><tr><td><code dir="auto">LOG_LEVEL</code></td><td>Logging verbosity (<code dir="auto">fatal</code>, <code dir="auto">error</code>, <code dir="auto">warn</code>, <code dir="auto">info</code>, <code dir="auto">debug</code>, <code dir="auto">trace</code>)</td><td><code dir="auto">info</code></td></tr><tr><td><code dir="auto">BOT_DISPLAY_NAME</code></td><td>Bot name shown in batch-mode “starting” messages</td><td><code dir="auto">Devox</code></td></tr><tr><td><code dir="auto">DEFAULT_AI_ASSISTANT</code></td><td>Default AI assistant (must match a registered provider)</td><td><code dir="auto">claude</code></td></tr><tr><td><code dir="auto">MAX_CONCURRENT_CONVERSATIONS</code></td><td>Maximum concurrent AI conversations</td><td><code dir="auto">10</code></td></tr><tr><td><code dir="auto">SESSION_RETENTION_DAYS</code></td><td>Delete inactive sessions older than N days</td><td><code dir="auto">30</code></td></tr><tr><td><code dir="auto">DEVOX_SUPPRESS_NESTED_CLAUDE_WARNING</code></td><td>When set to <code dir="auto">1</code>, suppresses the stderr warning emitted when <code dir="auto">devox</code> is run inside a Claude Code session</td><td>—</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="ai-providers--claude">AI Providers — Claude</h3><a class="sl-anchor-link" href="#ai-providers--claude"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “AI Providers — Claude”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td><code dir="auto">CLAUDE_USE_GLOBAL_AUTH</code></td><td>Use global auth from <code dir="auto">claude /login</code> (<code dir="auto">true</code>/<code dir="auto">false</code>)</td><td>Auto-detect</td></tr><tr><td><code dir="auto">CLAUDE_CODE_OAUTH_TOKEN</code></td><td>Explicit OAuth token (alternative to global auth)</td><td>—</td></tr><tr><td><code dir="auto">CLAUDE_API_KEY</code></td><td>Explicit API key (alternative to global auth)</td><td>—</td></tr><tr><td><code dir="auto">TITLE_GENERATION_MODEL</code></td><td>Lightweight model for generating conversation titles</td><td>SDK default</td></tr><tr><td><code dir="auto">DEVOX_CLAUDE_FIRST_EVENT_TIMEOUT_MS</code></td><td>Timeout (ms) before Claude subprocess is considered hung (throws with diagnostic log)</td><td><code dir="auto">60000</code></td></tr></tbody></table>
+<p>When <code dir="auto">CLAUDE_USE_GLOBAL_AUTH</code> is unset, Devox auto-detects: it uses explicit tokens if present, otherwise falls back to global auth.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="ai-providers--codex">AI Providers — Codex</h3><a class="sl-anchor-link" href="#ai-providers--codex"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “AI Providers — Codex”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td><code dir="auto">CODEX_ID_TOKEN</code></td><td>Codex ID token (from <code dir="auto">~/.codex/auth.json</code>)</td><td>—</td></tr><tr><td><code dir="auto">CODEX_ACCESS_TOKEN</code></td><td>Codex access token</td><td>—</td></tr><tr><td><code dir="auto">CODEX_REFRESH_TOKEN</code></td><td>Codex refresh token</td><td>—</td></tr><tr><td><code dir="auto">CODEX_ACCOUNT_ID</code></td><td>Codex account ID</td><td>—</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="platform-adapters--slack">Platform Adapters — Slack</h3><a class="sl-anchor-link" href="#platform-adapters--slack"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Platform Adapters — Slack”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td><code dir="auto">SLACK_BOT_TOKEN</code></td><td>Slack bot token (<code dir="auto">xoxb-...</code>)</td><td>—</td></tr><tr><td><code dir="auto">SLACK_APP_TOKEN</code></td><td>Slack app-level token for Socket Mode (<code dir="auto">xapp-...</code>)</td><td>—</td></tr><tr><td><code dir="auto">SLACK_ALLOWED_USER_IDS</code></td><td>Comma-separated Slack user IDs for whitelist</td><td>Open access</td></tr><tr><td><code dir="auto">SLACK_STREAMING_MODE</code></td><td>Streaming mode (<code dir="auto">stream</code> or <code dir="auto">batch</code>)</td><td><code dir="auto">batch</code></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="platform-adapters--telegram">Platform Adapters — Telegram</h3><a class="sl-anchor-link" href="#platform-adapters--telegram"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Platform Adapters — Telegram”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td><code dir="auto">TELEGRAM_BOT_TOKEN</code></td><td>Telegram bot token from @BotFather</td><td>—</td></tr><tr><td><code dir="auto">TELEGRAM_ALLOWED_USER_IDS</code></td><td>Comma-separated Telegram user IDs for whitelist</td><td>Open access</td></tr><tr><td><code dir="auto">TELEGRAM_STREAMING_MODE</code></td><td>Streaming mode (<code dir="auto">stream</code> or <code dir="auto">batch</code>)</td><td><code dir="auto">stream</code></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="platform-adapters--discord">Platform Adapters — Discord</h3><a class="sl-anchor-link" href="#platform-adapters--discord"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Platform Adapters — Discord”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td><code dir="auto">DISCORD_BOT_TOKEN</code></td><td>Discord bot token from Developer Portal</td><td>—</td></tr><tr><td><code dir="auto">DISCORD_ALLOWED_USER_IDS</code></td><td>Comma-separated Discord user IDs for whitelist</td><td>Open access</td></tr><tr><td><code dir="auto">DISCORD_STREAMING_MODE</code></td><td>Streaming mode (<code dir="auto">stream</code> or <code dir="auto">batch</code>)</td><td><code dir="auto">batch</code></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="platform-adapters--github">Platform Adapters — GitHub</h3><a class="sl-anchor-link" href="#platform-adapters--github"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Platform Adapters — GitHub”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td><code dir="auto">GITHUB_TOKEN</code></td><td>GitHub personal access token (also used by <code dir="auto">gh</code> CLI)</td><td>—</td></tr><tr><td><code dir="auto">GH_TOKEN</code></td><td>Alias for <code dir="auto">GITHUB_TOKEN</code> (used by GitHub CLI)</td><td>—</td></tr><tr><td><code dir="auto">WEBHOOK_SECRET</code></td><td>HMAC SHA-256 secret for GitHub webhook signature verification</td><td>—</td></tr><tr><td><code dir="auto">GITHUB_ALLOWED_USERS</code></td><td>Comma-separated GitHub usernames for whitelist (case-insensitive)</td><td>Open access</td></tr><tr><td><code dir="auto">GITHUB_BOT_MENTION</code></td><td>@mention name the bot responds to in issues/PRs</td><td>Falls back to <code dir="auto">BOT_DISPLAY_NAME</code></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="platform-adapters--gitea">Platform Adapters — Gitea</h3><a class="sl-anchor-link" href="#platform-adapters--gitea"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Platform Adapters — Gitea”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td><code dir="auto">GITEA_URL</code></td><td>Self-hosted Gitea instance URL (e.g. <code dir="auto">https://gitea.example.com</code>)</td><td>—</td></tr><tr><td><code dir="auto">GITEA_TOKEN</code></td><td>Gitea personal access token or bot account token</td><td>—</td></tr><tr><td><code dir="auto">GITEA_WEBHOOK_SECRET</code></td><td>HMAC SHA-256 secret for Gitea webhook signature verification</td><td>—</td></tr><tr><td><code dir="auto">GITEA_ALLOWED_USERS</code></td><td>Comma-separated Gitea usernames for whitelist (case-insensitive)</td><td>Open access</td></tr><tr><td><code dir="auto">GITEA_BOT_MENTION</code></td><td>@mention name the bot responds to in issues/PRs</td><td>Falls back to <code dir="auto">BOT_DISPLAY_NAME</code></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="database">Database</h3><a class="sl-anchor-link" href="#database"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Database”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td><code dir="auto">DATABASE_URL</code></td><td>PostgreSQL connection string (omit to use SQLite)</td><td>SQLite at <code dir="auto">~/.devox/devox.db</code></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="web-ui">Web UI</h3><a class="sl-anchor-link" href="#web-ui"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Web UI”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td><code dir="auto">WEB_UI_ORIGIN</code></td><td>CORS origin for API routes (restrict when exposing publicly)</td><td><code dir="auto">*</code> (allow all)</td></tr><tr><td><code dir="auto">WEB_UI_DEV</code></td><td>When set, skip serving static frontend (Vite dev server used instead)</td><td>—</td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="worktree-management">Worktree Management</h3><a class="sl-anchor-link" href="#worktree-management"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Worktree Management”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td><code dir="auto">STALE_THRESHOLD_DAYS</code></td><td>Days before an inactive worktree is considered stale</td><td><code dir="auto">14</code></td></tr><tr><td><code dir="auto">MAX_WORKTREES_PER_CODEBASE</code></td><td>Max worktrees per codebase before auto-cleanup</td><td><code dir="auto">25</code></td></tr><tr><td><code dir="auto">CLEANUP_INTERVAL_HOURS</code></td><td>How often the background cleanup service runs</td><td><code dir="auto">6</code></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="docker--deployment">Docker / Deployment</h3><a class="sl-anchor-link" href="#docker--deployment"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Docker / Deployment”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td><code dir="auto">DEVOX_DATA</code></td><td>Host path for Devox data (workspaces, worktrees, artifacts)</td><td>Docker-managed volume</td></tr><tr><td><code dir="auto">DOMAIN</code></td><td>Public domain for Caddy reverse proxy (TLS auto-provisioned)</td><td>—</td></tr><tr><td><code dir="auto">CADDY_BASIC_AUTH</code></td><td>Caddy basicauth directive to protect Web UI and API</td><td>Disabled</td></tr><tr><td><code dir="auto">AUTH_USERNAME</code></td><td>Username for form-based auth (Caddy forward_auth)</td><td>—</td></tr><tr><td><code dir="auto">AUTH_PASSWORD_HASH</code></td><td>Bcrypt hash for form-based auth password (escape <code dir="auto">$</code> as <code dir="auto">$$</code> in Compose)</td><td>—</td></tr><tr><td><code dir="auto">COOKIE_SECRET</code></td><td>64-hex-char secret for auth session cookies</td><td>—</td></tr><tr><td><code dir="auto">AUTH_SERVICE_PORT</code></td><td>Port for the auth service container</td><td><code dir="auto">9000</code></td></tr><tr><td><code dir="auto">COOKIE_MAX_AGE</code></td><td>Auth cookie lifetime in seconds</td><td><code dir="auto">86400</code></td></tr></tbody></table>
+<div class="sl-heading-wrapper level-h3"><h3 id="env-file-locations"><code dir="auto">.env</code> File Locations</h3><a class="sl-anchor-link" href="#env-file-locations"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “.env File Locations”</span></a></div>
+<p>Infrastructure configuration (database URL, platform tokens) is stored in <code dir="auto">.env</code> files:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Component</th><th>Location</th><th>Purpose</th></tr></thead><tbody><tr><td><strong>CLI</strong></td><td><code dir="auto">~/.devox/.env</code></td><td>Global infrastructure config; CWD .env keys stripped first, then loaded with <code dir="auto">override: true</code> (Devox config wins over shell-inherited vars)</td></tr><tr><td><strong>Server (dev)</strong></td><td><code dir="auto">&#x3C;devox-repo>/.env</code> + <code dir="auto">~/.devox/.env</code></td><td>Repo <code dir="auto">.env</code> for platform tokens; <code dir="auto">~/.devox/.env</code> loaded with <code dir="auto">override: true</code></td></tr><tr><td><strong>Server (binary)</strong></td><td><code dir="auto">~/.devox/.env</code></td><td>Single source of truth (repo <code dir="auto">.env</code> path is not available in compiled binaries)</td></tr></tbody></table>
+<p><strong>How it works</strong>: At startup, the CLI and server strip all keys that Bun auto-loaded from the current working directory (<code dir="auto">.env</code>, <code dir="auto">.env.local</code>, <code dir="auto">.env.development</code>, <code dir="auto">.env.production</code>) and any nested Claude Code session markers (<code dir="auto">CLAUDECODE</code>, <code dir="auto">CLAUDE_CODE_*</code> except auth vars) before loading <code dir="auto">~/.devox/.env</code>. This ensures target repo keys and nested-session guards are fully removed from <code dir="auto">process.env</code> before any application code runs.</p>
+<p><strong>Best practice</strong>: Use <code dir="auto">~/.devox/.env</code> as the single source of truth:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># Create global config</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">mkdir</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-p</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">~/.devox</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">cp</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">.env.example</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">~/.devox/.env</span></div></div><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># Edit with your values</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="mkdir -p ~/.devoxcp .env.example ~/.devox/.env"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="docker-configuration">Docker Configuration</h2><a class="sl-anchor-link" href="#docker-configuration"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Docker Configuration”</span></a></div>
+<p>In Docker containers, paths are automatically set:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">/.devox/</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">├── workspaces/owner/repo/</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">│   ├── source/</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">│   ├── worktrees/</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">│   ├── artifacts/</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">│   └── logs/</span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">└── devox.db</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="/.devox/├── workspaces/owner/repo/│   ├── source/│   ├── worktrees/│   ├── artifacts/│   └── logs/└── devox.db"><div></div></button></div></figure></div>
+<p>Environment variables still work and override defaults.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="command-folder-detection">Command Folder Detection</h2><a class="sl-anchor-link" href="#command-folder-detection"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Command Folder Detection”</span></a></div>
+<p>When cloning or switching repositories, Devox looks for commands in this priority order:</p>
+<ol>
+<li><code dir="auto">.devox/commands/</code> - Always searched first</li>
+<li>Configured folder from <code dir="auto">commands.folder</code> in <code dir="auto">.devox/config.yaml</code> (if specified)</li>
+</ol>
+<p>Example <code dir="auto">.devox/config.yaml</code>:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="yaml"><code><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">commands</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">folder</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">.claude/commands/devox</span><span style="--0:#D6DEEB;--1:#403F53">  </span><span style="--0:#919F9F;--1:#5F636F"># Additional folder to search</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">autoLoad</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#FF6A83;--1:#A24848">true</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="commands:  folder: .claude/commands/devox  # Additional folder to search  autoLoad: true"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="examples">Examples</h2><a class="sl-anchor-link" href="#examples"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Examples”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="minimal-setup-using-defaults">Minimal Setup (Using Defaults)</h3><a class="sl-anchor-link" href="#minimal-setup-using-defaults"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Minimal Setup (Using Defaults)”</span></a></div>
+<p>No configuration needed. Devox works out of the box with:</p>
+<ul>
+<li><code dir="auto">~/.devox/</code> for all managed files</li>
+<li>Claude as default AI assistant</li>
+<li>Platform-appropriate streaming modes</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="custom-ai-preference">Custom AI Preference</h3><a class="sl-anchor-link" href="#custom-ai-preference"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Custom AI Preference”</span></a></div>
+<div class="expressive-code"><figure class="frame has-title not-content"><figcaption class="header"><span class="title">~/.devox/config.yaml</span></figcaption><pre data-language="yaml"><code><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">defaultAssistant</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">codex</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="defaultAssistant: codex"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="project-specific-settings">Project-Specific Settings</h3><a class="sl-anchor-link" href="#project-specific-settings"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Project-Specific Settings”</span></a></div>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="yaml"><code><div class="ec-line"><div class="code"><span style="--0:#919F9F;--1:#5F636F"># .devox/config.yaml in your repo</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">assistant</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#ECC48D;--1:#3B61B0">claude</span><span style="--0:#D6DEEB;--1:#403F53">  </span><span style="--0:#919F9F;--1:#5F636F"># Workflows inherit this provider unless they specify their own</span></div></div><div class="ec-line"><div class="code"><span style="--0:#7FDBCA;--1:#111111">commands</span><span style="--0:#D6DEEB;--1:#403F53">:</span></div></div><div class="ec-line"><div class="code"><span class="indent">  </span><span style="--0:#7FDBCA;--1:#111111">autoLoad</span><span style="--0:#D6DEEB;--1:#403F53">: </span><span style="--0:#FF6A83;--1:#A24848">true</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="# .devox/config.yaml in your repoassistant: claude  # Workflows inherit this provider unless they specify their owncommands:  autoLoad: true"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="docker-with-custom-volume">Docker with Custom Volume</h3><a class="sl-anchor-link" href="#docker-with-custom-volume"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Docker with Custom Volume”</span></a></div>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">docker</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">run</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">-v</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">/my/data:/.devox</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">ghcr.io/manish/devox</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="docker run -v /my/data:/.devox ghcr.io/manish/devox"><div></div></button></div></figure></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="streaming-modes">Streaming Modes</h2><a class="sl-anchor-link" href="#streaming-modes"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Streaming Modes”</span></a></div>
+<p>Each platform adapter supports two streaming modes, configured via environment variable or <code dir="auto">~/.devox/config.yaml</code>.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="stream-mode">Stream Mode</h3><a class="sl-anchor-link" href="#stream-mode"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Stream Mode”</span></a></div>
+<p>Messages are sent in real-time as the AI generates responses.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="ini"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">TELEGRAM_STREAMING_MODE</span><span style="--0:#D6DEEB;--1:#403F53">=stream</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">SLACK_STREAMING_MODE</span><span style="--0:#D6DEEB;--1:#403F53">=stream</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">DISCORD_STREAMING_MODE</span><span style="--0:#D6DEEB;--1:#403F53">=stream</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="TELEGRAM_STREAMING_MODE=streamSLACK_STREAMING_MODE=streamDISCORD_STREAMING_MODE=stream"><div></div></button></div></figure></div>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Real-time feedback and progress indication</li>
+<li>More interactive and engaging</li>
+<li>See AI reasoning as it works</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>More API calls to platform</li>
+<li>May hit rate limits with very long responses</li>
+<li>Creates many messages/comments</li>
+</ul>
+<p><strong>Best for:</strong> Interactive chat platforms (Telegram)</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="batch-mode">Batch Mode</h3><a class="sl-anchor-link" href="#batch-mode"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Batch Mode”</span></a></div>
+<p>Only the final summary message is sent after AI completes processing.</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="ini"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">TELEGRAM_STREAMING_MODE</span><span style="--0:#D6DEEB;--1:#403F53">=batch</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">SLACK_STREAMING_MODE</span><span style="--0:#D6DEEB;--1:#403F53">=batch</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">DISCORD_STREAMING_MODE</span><span style="--0:#D6DEEB;--1:#403F53">=batch</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="TELEGRAM_STREAMING_MODE=batchSLACK_STREAMING_MODE=batchDISCORD_STREAMING_MODE=batch"><div></div></button></div></figure></div>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Single coherent message/comment</li>
+<li>Fewer API calls</li>
+<li>No spam or clutter</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>No progress indication during processing</li>
+<li>Longer wait for first response</li>
+<li>Can’t see intermediate steps</li>
+</ul>
+<p><strong>Best for:</strong> Issue trackers and async platforms (GitHub)</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="platform-defaults">Platform Defaults</h3><a class="sl-anchor-link" href="#platform-defaults"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Platform Defaults”</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Platform</th><th>Default Mode</th></tr></thead><tbody><tr><td>Telegram</td><td><code dir="auto">stream</code></td></tr><tr><td>Discord</td><td><code dir="auto">batch</code></td></tr><tr><td>Slack</td><td><code dir="auto">batch</code></td></tr><tr><td>GitHub</td><td><code dir="auto">batch</code></td></tr><tr><td>Web UI</td><td>SSE streaming (always real-time, not configurable)</td></tr></tbody></table>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="concurrency-settings">Concurrency Settings</h2><a class="sl-anchor-link" href="#concurrency-settings"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Concurrency Settings”</span></a></div>
+<p>Control how many conversations the system processes simultaneously:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="ini"><code><div class="ec-line"><div class="code"><span style="--0:#C792EA;--1:#8844AE">MAX_CONCURRENT_CONVERSATIONS</span><span style="--0:#D6DEEB;--1:#403F53">=10  </span><span style="--0:#919F9F;--1:#5F636F"># Default: 10</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="MAX_CONCURRENT_CONVERSATIONS=10  # Default: 10"><div></div></button></div></figure></div>
+<p><strong>How it works:</strong></p>
+<ul>
+<li>Conversations are processed with a lock manager</li>
+<li>If the max concurrent limit is reached, new messages are queued</li>
+<li>Prevents resource exhaustion and API rate limits</li>
+<li>Each conversation maintains its own independent context</li>
+</ul>
+<p><strong>Tuning guidance:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Resources</th><th>Recommended Setting</th></tr></thead><tbody><tr><td>Low resources</td><td>3-5</td></tr><tr><td>Standard</td><td>10 (default)</td></tr><tr><td>High resources</td><td>20-30 (monitor API limits)</td></tr></tbody></table>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="health-check-endpoints">Health Check Endpoints</h2><a class="sl-anchor-link" href="#health-check-endpoints"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Health Check Endpoints”</span></a></div>
+<p>The application exposes health check endpoints for monitoring:</p>
+<p><strong>Basic Health Check:</strong></p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">http://localhost:3090/health</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="curl http://localhost:3090/health"><div></div></button></div></figure></div>
+<p>Returns: <code dir="auto">{"status":"ok"}</code></p>
+<p><strong>Database Connectivity:</strong></p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">http://localhost:3090/health/db</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="curl http://localhost:3090/health/db"><div></div></button></div></figure></div>
+<p>Returns: <code dir="auto">{"status":"ok","database":"connected"}</code></p>
+<p><strong>Concurrency Status:</strong></p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">curl</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">http://localhost:3090/health/concurrency</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="curl http://localhost:3090/health/concurrency"><div></div></button></div></figure></div>
+<p>Returns: <code dir="auto">{"status":"ok","active":0,"queued":0,"maxConcurrent":10}</code></p>
+<p><strong>Use cases:</strong></p>
+<ul>
+<li>Docker healthcheck configuration</li>
+<li>Load balancer health checks</li>
+<li>Monitoring and alerting systems (Prometheus, Datadog, etc.)</li>
+<li>CI/CD deployment verification</li>
+</ul>
+<hr>
+<div class="sl-heading-wrapper level-h2"><h2 id="troubleshooting">Troubleshooting</h2><a class="sl-anchor-link" href="#troubleshooting"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Troubleshooting”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="config-parse-errors">Config Parse Errors</h3><a class="sl-anchor-link" href="#config-parse-errors"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Section titled “Config Parse Errors”</span></a></div>
+<p>If your config file has invalid YAML syntax, you’ll see error messages like:</p>
+<div class="expressive-code"><figure class="frame not-content"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">[Config] Failed to parse global config at ~/.devox/config.yaml: &#x3C;error details></span></div></div><div class="ec-line"><div class="code"><span style="--0:#d6deeb;--1:#403f53">[Config] Using default configuration. Please fix the YAML syntax in your config file.</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="[Config] Failed to parse global config at ~/.devox/config.yaml: <error details>[Config] Using default configuration. Please fix the YAML syntax in your config file."><div></div></button></div></figure></div>
+<p>Common YAML syntax issues:</p>
+<ul>
+<li>Incorrect indentation (use spaces, not tabs)</li>
+<li>Missing colons after keys</li>
+<li>Unquoted values with special characters</li>
+</ul>
+<p>The application will continue running with default settings until the config file is fixed.</p> </div> <footer class="sl-flex astro-2fbzb6gq"> <div class="meta sl-flex astro-2fbzb6gq"> <a href="https://github.com/manish/Devox/edit/main/packages/docs-web/src/content/docs/reference/configuration.md" class="sl-flex print:hidden astro-aizoqjdh"><svg aria-hidden="true" class="astro-aizoqjdh astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.2em;"><path d="M22 7.24a1 1 0 0 0-.29-.71l-4.24-4.24a1 1 0 0 0-1.1-.22 1 1 0 0 0-.32.22l-2.83 2.83L2.29 16.05a1 1 0 0 0-.29.71V21a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .76-.29l10.87-10.93L21.71 8c.1-.1.17-.2.22-.33a1 1 0 0 0 0-.24v-.14l.07-.05ZM6.83 20H4v-2.83l9.93-9.93 2.83 2.83L6.83 20ZM18.17 8.66l-2.83-2.83 1.42-1.41 2.82 2.82-1.41 1.42Z"/></svg>Edit page</a>  </div> <div class="pagination-links print:hidden astro-cvqm7dbd" dir="ltr"> <a href="/reference/api/" rel="prev" class="astro-cvqm7dbd"> <svg aria-hidden="true" class="astro-cvqm7dbd astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg> <span class="astro-cvqm7dbd"> Previous <br class="astro-cvqm7dbd"> <span class="link-title astro-cvqm7dbd">API Reference</span> </span> </a> <a href="/reference/troubleshooting/" rel="next" class="astro-cvqm7dbd"> <svg aria-hidden="true" class="astro-cvqm7dbd astro-p666lqoh" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg> <span class="astro-cvqm7dbd"> Next <br class="astro-cvqm7dbd"> <span class="link-title astro-cvqm7dbd">Troubleshooting</span> </span> </a> </div>  </footer> </div> </div>  </main> </div> </div> </div> </div> </body></html>
