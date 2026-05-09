@@ -44,10 +44,12 @@ function Write-Ok      { param([string]$Msg) Write-Host "[OK]    $Msg" -Foregrou
 # ---------------------------------------------------------------------------
 function Show-Banner {
     Write-Host ""
-    Write-Host "  +---------------------------------------+" -ForegroundColor Cyan
-    Write-Host "  |      Devox CLI Installer             |" -ForegroundColor Cyan
-    Write-Host "  |      Windows (PowerShell)             |" -ForegroundColor Cyan
-    Write-Host "  +---------------------------------------+" -ForegroundColor Cyan
+    Write-Host "  +---------------------------------------------------+" -ForegroundColor Cyan
+    Write-Host "  |            Devox CLI Installer                    |" -ForegroundColor Cyan
+    Write-Host "  |            Windows (PowerShell)                   |" -ForegroundColor Cyan
+    Write-Host "  |                                                   |" -ForegroundColor Cyan
+    Write-Host "  |  Supports: Claude  |  Codex  |  Copilot  |  Pi   |" -ForegroundColor Cyan
+    Write-Host "  +---------------------------------------------------+" -ForegroundColor Cyan
     Write-Host ""
 }
 
@@ -297,6 +299,9 @@ function Main {
         Write-Host "  Get started:" -ForegroundColor Cyan
         Write-Host "    devox workflow list"
         Write-Host "    devox workflow run assist `"What workflows are available?`""
+        Write-Host ""
+        Write-Host "  Supported AI providers:" -ForegroundColor Cyan
+        Write-Host "    Claude (Anthropic)  |  Codex (OpenAI)  |  GitHub Copilot  |  Pi"
         Write-Host ""
         Write-Host "  Note: Open a new terminal window so the updated PATH takes effect." -ForegroundColor Yellow
         Write-Host ""
