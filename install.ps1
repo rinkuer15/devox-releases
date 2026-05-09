@@ -1,7 +1,7 @@
 # scripts/install.ps1
 # Install Devox CLI from GitHub Releases on Windows
 #
-# Usage: irm https://devox.diy/install.ps1 | iex
+# Usage: irm https://raw.githubusercontent.com/rinkuer15/devox-releases/main/install.ps1 | iex
 #
 # Options (via environment variables):
 #   $env:VERSION       - Specific version to install (default: latest)
@@ -10,13 +10,13 @@
 #
 # Examples:
 #   # Install latest
-#   irm https://devox.diy/install.ps1 | iex
+#   irm https://raw.githubusercontent.com/rinkuer15/devox-releases/main/install.ps1 | iex
 #
 #   # Install specific version
-#   $env:VERSION = "v0.2.0"; irm https://devox.diy/install.ps1 | iex
+#   $env:VERSION = "v0.2.0"; irm https://raw.githubusercontent.com/rinkuer15/devox-releases/main/install.ps1 | iex
 #
 #   # Install to custom directory
-#   $env:INSTALL_DIR = "C:\tools\devox"; irm https://devox.diy/install.ps1 | iex
+#   $env:INSTALL_DIR = "C:\tools\devox"; irm https://raw.githubusercontent.com/rinkuer15/devox-releases/main/install.ps1 | iex
 
 #Requires -Version 5.1
 Set-StrictMode -Version Latest
@@ -25,7 +25,7 @@ $ErrorActionPreference = 'Stop'
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-$REPO         = "manish/Devox"
+$REPO         = "rinkuer15/devox-releases"
 $BINARY_NAME  = "devox"
 $VERSION      = if ($env:VERSION)     { $env:VERSION }     else { "latest" }
 $INSTALL_DIR  = if ($env:INSTALL_DIR) { $env:INSTALL_DIR } else { "$env:USERPROFILE\.devox\bin" }
@@ -44,10 +44,12 @@ function Write-Ok      { param([string]$Msg) Write-Host "[OK]    $Msg" -Foregrou
 # ---------------------------------------------------------------------------
 function Show-Banner {
     Write-Host ""
-    Write-Host "  +---------------------------------------+" -ForegroundColor Cyan
-    Write-Host "  |      Devox CLI Installer             |" -ForegroundColor Cyan
-    Write-Host "  |      Windows (PowerShell)             |" -ForegroundColor Cyan
-    Write-Host "  +---------------------------------------+" -ForegroundColor Cyan
+    Write-Host "  +---------------------------------------------------+" -ForegroundColor Cyan
+    Write-Host "  |            Devox CLI Installer                    |" -ForegroundColor Cyan
+    Write-Host "  |            Windows (PowerShell)                   |" -ForegroundColor Cyan
+    Write-Host "  |                                                   |" -ForegroundColor Cyan
+    Write-Host "  |  Supports: Claude  |  Codex  |  Copilot  |  Pi   |" -ForegroundColor Cyan
+    Write-Host "  +---------------------------------------------------+" -ForegroundColor Cyan
     Write-Host ""
 }
 
@@ -297,6 +299,9 @@ function Main {
         Write-Host "  Get started:" -ForegroundColor Cyan
         Write-Host "    devox workflow list"
         Write-Host "    devox workflow run assist `"What workflows are available?`""
+        Write-Host ""
+        Write-Host "  Supported AI providers:" -ForegroundColor Cyan
+        Write-Host "    Claude (Anthropic)  |  Codex (OpenAI)  |  GitHub Copilot  |  Pi"
         Write-Host ""
         Write-Host "  Note: Open a new terminal window so the updated PATH takes effect." -ForegroundColor Yellow
         Write-Host ""
